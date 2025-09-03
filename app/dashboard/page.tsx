@@ -175,7 +175,7 @@ export default function DashboardPage() {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="py-8 text-center text-gray-500">
+                <td colSpan={5} className="py-8 text-center text-gray-500">
                   ไม่พบข้อมูลอาหาร
                 </td>
               </tr>
