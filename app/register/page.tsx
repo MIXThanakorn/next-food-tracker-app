@@ -11,36 +11,32 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | ArrayBuffer | null>(
+    null
+  );
 
   useEffect(() => {
-    // This is a common practice in Next.js to ensure the component is mounted
-    // before rendering, to prevent hydration errors.
     setIsMounted(true);
   }, []);
 
   if (!isMounted) {
-    // Return null or a loading state to prevent rendering on the server
     return null;
   }
 
-  // Handle form field changes
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     if (id === "fullName") setFullName(value);
     if (id === "email") setEmail(value);
     if (id === "password") setPassword(value);
   };
 
-  // Handle gender radio button change
-  const handleGenderChange = (event) => {
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGender(event.target.value);
   };
 
-  // Handle file input change and set image preview
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       setProfileImage(file);
       const reader = new FileReader();
@@ -51,7 +47,6 @@ export default function RegisterPage() {
     }
   };
 
-  // Handle form reset
   const handleReset = () => {
     setFullName("");
     setEmail("");
@@ -59,10 +54,11 @@ export default function RegisterPage() {
     setGender("");
     setProfileImage(null);
     setPreviewImage(null);
-    // You might also want to reset the file input element itself
-    // to clear the file name from the UI, but it's not strictly
-    // necessary for the state to be reset.
-    const fileInput = document.getElementById("profileImage");
+
+    // To clear the file input field, you must reset its value.
+    const fileInput = document.getElementById(
+      "profileImage"
+    ) as HTMLInputElement;
     if (fileInput) {
       fileInput.value = "";
     }
@@ -174,7 +170,7 @@ export default function RegisterPage() {
             {previewImage && (
               <div className="mt-4 flex flex-col items-center space-y-4">
                 <img
-                  src={previewImage}
+                  src={previewImage as string}
                   alt="Image Preview"
                   className="h-40 w-40 rounded-full object-cover"
                 />
